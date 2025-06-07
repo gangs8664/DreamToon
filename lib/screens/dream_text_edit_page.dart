@@ -1,78 +1,403 @@
+// import 'package:flutter/material.dart';
+//
+// class DreamTextEditPage extends StatefulWidget {
+//   final String transcript;
+//   final int sttId;
+//
+//   const DreamTextEditPage({super.key, required this.transcript, required this.sttId,});
+//
+//   @override
+//   State<DreamTextEditPage> createState() => _DreamTextEditPageState();
+// }
+//
+// class _DreamTextEditPageState extends State<DreamTextEditPage> {
+//   late TextEditingController controller;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller = TextEditingController(text: widget.transcript);
+//   }
+//
+//   void _showCustomDialog(String message) {
+//     showDialog(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (_) => Dialog(
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+//         backgroundColor: Colors.white,
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               Text(
+//                 message,
+//                 style: const TextStyle(fontSize: 16, color: Colors.black87),
+//                 textAlign: TextAlign.center,
+//               ),
+//               const SizedBox(height: 20),
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: ElevatedButton(
+//                   onPressed: () => Navigator.pop(context),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: const Color(0xFF3F51B5),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(8),
+//                     ),
+//                     padding: const EdgeInsets.symmetric(vertical: 14),
+//                   ),
+//                   child: const Text(
+//                     "확인",
+//                     style: TextStyle(fontSize: 16, color: Colors.white),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.black,
+//       // appBar: AppBar(
+//       //   backgroundColor: Colors.black,
+//       //   centerTitle: true,
+//       //   title: const Text('텍스트 확인', style: TextStyle(color: Colors.white)),
+//       //   iconTheme: const IconThemeData(color: Colors.white),
+//       // ),
+//       appBar: AppBar(
+//         backgroundColor: Colors.black,
+//         centerTitle: true,
+//         title: const Text('텍스트 확인', style: TextStyle(color: Colors.white)),
+//         // iconTheme: const IconThemeData(color: Colors.white),
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.home, color: Colors.white),
+//             onPressed: () {
+//               showDialog(
+//                 context: context,
+//                 barrierDismissible: false,
+//                 builder: (BuildContext dialogContext) {
+//                   return AlertDialog(
+//                     backgroundColor: Colors.white,
+//                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+//                     content: const Text(
+//                       "더 이상 진행하지 않고 홈으로 이동하시겠습니까?\n임시 데이터는 삭제됩니다.",
+//                       style: TextStyle(color: Colors.black87, fontSize: 15),
+//                       textAlign: TextAlign.center,
+//                     ),
+//                     actionsAlignment: MainAxisAlignment.spaceEvenly,
+//                     actions: [
+//                       TextButton(
+//                         onPressed: () => Navigator.pop(dialogContext),
+//                         child: const Text("취소", style: TextStyle(color: Colors.deepPurple)),
+//                       ),
+//                       TextButton(
+//                         onPressed: () {
+//                           Navigator.pop(dialogContext); // 알림창 닫기
+//                           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false); // 홈으로 이동
+//                         },
+//                         child: const Text("홈으로 이동", style: TextStyle(color: Colors.deepPurple)),
+//                       ),
+//                     ],
+//                   );
+//                 },
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             const Text(
+//               "변환된 텍스트를 확인해 주세요",
+//               style: TextStyle(color: Colors.white70, fontSize: 16),
+//             ),
+//             const SizedBox(height: 12),
+//             TextField(
+//               controller: controller,
+//               maxLines: 8,
+//               style: const TextStyle(color: Colors.white),
+//               decoration: InputDecoration(
+//                 hintText: '텍스트를 입력하세요',
+//                 hintStyle: const TextStyle(color: Colors.grey),
+//                 filled: true,
+//                 fillColor: Colors.grey[900],
+//                 border: OutlineInputBorder(
+//                   borderSide: BorderSide(color: Colors.white24),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 20),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 ElevatedButton.icon(
+//                   onPressed: () {
+//                     _showCustomDialog("텍스트가 수정되었습니다");
+//                   },
+//                   icon: const Icon(Icons.save_alt, color: Colors.deepPurple),
+//                   label: const Text("텍스트 수정", style: TextStyle(color: Colors.deepPurple)),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.white,
+//                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+//                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+//                   ),
+//                 ),
+//                 const SizedBox(width: 16),
+//                 ElevatedButton.icon(
+//                   onPressed: () {
+//                     _showCustomDialog("웹툰 생성이 시작됩니다. 잠시만 기다려주세요.");
+//                   },
+//                   icon: const Icon(Icons.auto_stories, color: Colors.deepPurple),
+//                   label: const Text("웹툰 만들기", style: TextStyle(color: Colors.deepPurple)),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.white,
+//                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+//                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+//                   ),
+//                 ),
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+// // ---------------------------------------------------------------
 import 'package:flutter/material.dart';
+import 'webtoon_result_page.dart';
 
 class DreamTextEditPage extends StatefulWidget {
-  final String transcript; // 하드코딩된 텍스트를 받는 부분
+  final String transcript;
+  final int sttId;
 
-  const DreamTextEditPage({super.key, required this.transcript});
+  const DreamTextEditPage({
+    super.key,
+    required this.transcript,
+    required this.sttId,
+  });
 
   @override
-  _DreamTextEditPageState createState() => _DreamTextEditPageState();
+  State<DreamTextEditPage> createState() => _DreamTextEditPageState();
 }
 
 class _DreamTextEditPageState extends State<DreamTextEditPage> {
-  late TextEditingController _controller;
+  late TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.transcript);  // 텍스트 필드에 전달된 텍스트 세팅
+    controller = TextEditingController(text: widget.transcript);
   }
 
-  // 수정된 텍스트 저장 함수
-  void saveEditedText() {
-    String editedText = _controller.text;
-    print("저장된 텍스트: $editedText");
-    // 여기서 백엔드에 저장하는 코드 또는 다른 로직을 추가할 수 있습니다.
-    Navigator.pop(context);  // 저장 후 이전 화면으로 돌아가기
+  void _showCustomDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                message,
+                style: const TextStyle(fontSize: 16, color: Colors.black87),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3F51B5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: const Text(
+                    "확인",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showHomeDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "홈으로 이동하시겠습니까?",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 14),
+                    ),
+                    child: const Text("취소", style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3F51B5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 14),
+                    ),
+                    child: const Text("홈으로 이동", style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _startWebtoonCreation() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Colors.white,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "웹툰 생성이 시작됩니다.\n잠시만 기다려주세요.",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pop(context); // 다이얼로그 닫기
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const WebtoonResultPage()),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,  // 앱바 배경색 검정
-        title: const Text('텍스트 수정', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        title: const Text('텍스트 확인', style: TextStyle(color: Colors.white)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home, color: Colors.white),
+            onPressed: _showHomeDialog,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             const Text(
-              "변환된 텍스트를 수정해 주세요",
-              style: TextStyle(color: Colors.white),  // 텍스트 색상 흰색
+              "변환된 텍스트를 확인해 주세요",
+              style: TextStyle(color: Colors.white70, fontSize: 16),
             ),
             const SizedBox(height: 12),
             TextField(
-              controller: _controller,  // 수정된 텍스트 입력 필드
+              controller: controller,
               maxLines: 8,
-              style: const TextStyle(color: Colors.white),  // 입력된 텍스트 색상 흰색
+              style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.grey[900],  // 입력 필드 배경 어두운 색
                 hintText: '텍스트를 입력하세요',
-                hintStyle: const TextStyle(color: Colors.grey),  // 힌트 텍스트 색상
+                hintStyle: const TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey[900],
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white24),
+                ),
               ),
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: saveEditedText,  // 임시 저장
-                  child: const Text("임시 저장"),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _showCustomDialog("텍스트가 수정되었습니다");
+                  },
+                  icon: const Icon(Icons.save_alt, color: Colors.deepPurple),
+                  label: const Text("텍스트 수정", style: TextStyle(color: Colors.deepPurple)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
                 ),
                 const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    // 웹툰 만들기 버튼 (추후 구현)
-                    print("웹툰 만들기 버튼 클릭");
-                  },
-                  child: const Text("웹툰 만들기"),
+                ElevatedButton.icon(
+                  onPressed: _startWebtoonCreation,
+                  icon: const Icon(Icons.auto_stories, color: Colors.deepPurple),
+                  label: const Text("웹툰 만들기", style: TextStyle(color: Colors.deepPurple)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),
