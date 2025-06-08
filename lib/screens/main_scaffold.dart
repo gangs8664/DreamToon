@@ -30,12 +30,15 @@ class _MainScaffoldState extends State<MainScaffold> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color(0xFF151515), // ✅ 배경 검정
+          selectedItemColor: Colors.white,  
+          unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
           BottomNavigationBarItem(icon: Icon(Icons.mic), label: '기록'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: '캘린더'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
         ],
       ),
     );
